@@ -12,3 +12,10 @@ export const SERVER_URL =
     email: 'adminbashir@example.com',
     password: '123456',
   };
+  export const signUpDefaultValues = {
+    name: 'Bashir Karimi',
+    email: 'bashir@example.com',
+    password: 'password',
+    confirmPassword: 'password',
+  };
+  
