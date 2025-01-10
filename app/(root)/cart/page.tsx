@@ -1,9 +1,18 @@
+import { getMyCart } from '@/lib/actions/cart.actions';
+import CartTable from './cart-table';
+
 export const metadata = {
-    title: 'Shopping Cart',
-  };
-  
-  const CartPage = async () => {
-    return <>Cart Page</>;
-  };
-  
-  export default CartPage;
+  title: 'Shopping Cart',
+};
+
+const CartPage = async () => {
+  const cart = await getMyCart();
+
+  return (
+    <>
+      <CartTable cart={cart} />
+    </>
+  );
+};
+
+export default CartPage;
