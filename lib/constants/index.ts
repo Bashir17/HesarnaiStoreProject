@@ -10,7 +10,7 @@ export const SERVER_URL =
 
   export const signInDefaultValues = {
     email: 'adminbashir@example.com',
-    password: '123456',
+    password: 'password',
   };
   export const signUpDefaultValues = {
     name: 'Bashir Karimi',

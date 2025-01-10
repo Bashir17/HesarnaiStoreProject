@@ -38,4 +38,5 @@ const ProductCard = ({ product }: { product: Product }) => {
   );
 };
 
+
 export default ProductCard;
