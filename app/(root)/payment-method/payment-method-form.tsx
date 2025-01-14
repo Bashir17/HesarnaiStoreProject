@@ -1,7 +1,12 @@
 'use client';
-
-import CheckoutSteps from '@/components/shared/checkout-steps';
-import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+import { useTransition } from 'react';
+import { paymentMethodSchema } from '@/lib/validator';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from '@/lib/constants';
 import {
   Form,
   FormControl,
@@ -10,17 +15,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useToast } from '@/hooks/use-toast';
-import { updateUserPaymentMethod } from '@/lib/actions/user.actions';
-import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from '@/lib/constants';
-import { paymentMethodSchema } from '@/lib/validator';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
 import { ArrowRight, Loader } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { updateUserPaymentMethod } from '@/lib/actions/user.actions';
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
@@ -38,38 +36,37 @@ const PaymentMethodForm = ({
   });
 
   const [isPending, startTransition] = useTransition();
-  // add submit handler
-  async function onSubmit(values: z.infer<typeof paymentMethodSchema>) {
+
+  const onSubmit = async (values: z.infer<typeof paymentMethodSchema>) => {
     startTransition(async () => {
       const res = await updateUserPaymentMethod(values);
-  
+
       if (!res.success) {
         toast({
           variant: 'destructive',
           description: res.message,
         });
-  
         return;
       }
-  
+
       router.push('/place-order');
     });
-  }
+  };
+
   return (
     <>
-      <CheckoutSteps current={2} />
-      <div className='max-w-md mx-auto'>
+      <div className='max-w-md mx-auto space-y-4'>
+        <h1 className='h2-bold mt-4'>Payment Method</h1>
+        <p className='text-sm text-muted-foreground'>
+          Please select a payment method
+        </p>
         <Form {...form}>
           <form
             method='post'
-            onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
+            onSubmit={form.handleSubmit(onSubmit)}
           >
-            <h1 className='h2-bold mt-4'>Payment Method</h1>
-            <p className='text-sm text-muted-foreground'>
-              Please select your preferred payment method
-            </p>
-            <div className='flex flex-col gap-5 md:flex-row'>
+            <div className='flex flex-col md:flex-row gap-5'>
               <FormField
                 control={form.control}
                 name='type'
@@ -103,13 +100,14 @@ const PaymentMethodForm = ({
                 )}
               />
             </div>
+
             <div className='flex gap-2'>
               <Button type='submit' disabled={isPending}>
                 {isPending ? (
-                  <Loader className='animate-spin w-4 h-4' />
+                  <Loader className='w-4 h-4 animate-spin' />
                 ) : (
                   <ArrowRight className='w-4 h-4' />
-                )}
+                )}{' '}
                 Continue
               </Button>
             </div>
