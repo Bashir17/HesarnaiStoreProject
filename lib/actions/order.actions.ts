@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import { insertOrderSchema } from '../validator';
 import { prisma } from '@/db/prisma';
 import { CartItem } from '@/types';
-
+import { convertToPlainObject } from '../utils';
 // Create an order
 export async function createOrder() {
   try {
@@ -74,4 +74,17 @@ export async function createOrder() {
     if (isRedirectError(error)) throw error;
     return { success: false, message: formatError(error) };
   }
+}
+// Get an order by ID and return with user and order items
+export async function getOrderById(orderId: string) {
+  const data = await prisma.order.findFirst({
+    where: {
+      id: orderId,
+    },
+    include: {
+      orderItems: true,
+      user: { select: { name: true, email: true } },
+    },
+  });
+  return convertToPlainObject(data);
 }
