@@ -19,3 +19,10 @@ export const SERVER_URL =
     confirmPassword: 'password',
   };
   
+  export const shippingAddressDefaultValues = {
+    fullName: 'Bashir Karimi',
+    streetAddress: '12-59 Takyuhigashi machi',
+    city: 'Tomakomai',
+    postalCode: '1303-059',
+    country: 'JPN',
+  }
