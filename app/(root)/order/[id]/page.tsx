@@ -20,14 +20,25 @@ const OrderDetailsPage = async (props: {
   const order = await getOrderById(id);
   if (!order) notFound();
 
+  const orderItems = order.orderItems.map((item) => ({
+    ...item,
+    price: item.price.toString(),
+  }));
+
   return (
     <OrderDetailsTable
       order={{
         ...order,
+        orderItems,
         shippingAddress: order.shippingAddress as ShippingAddress,
+        itemsPrice: order.itemsPrice.toString(),  // TODO: Fix this by Bashir
+        shippingPrice: order.shippingPrice.toString(), // TODO: Fix this
+        taxPrice: order.taxPrice.toString(),
+        totalPrice: order.totalPrice.toString(),
       }}
     />
   );
 };
+
 
 export default OrderDetailsPage;
