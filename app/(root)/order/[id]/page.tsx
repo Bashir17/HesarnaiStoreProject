@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { ShippingAddress } from '@/types';
 import OrderDetailsTable from './order-details-table';
 
-export const metadata = {
+export const metadata :Metadata= {
   title: 'Order Details',
 };
 
@@ -20,22 +20,18 @@ const OrderDetailsPage = async (props: {
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  const orderItems = order.orderItems.map((item) => ({
+ /*  const orderItems = order.orderItems.map((item) => ({
     ...item,
     price: item.price.toString(),
-  }));
+  })); */
 
   return (
     <OrderDetailsTable
-      order={{
-        ...order,
-        orderItems,
-        shippingAddress: order.shippingAddress as ShippingAddress,
-        itemsPrice: order.itemsPrice.toString(),  // TODO: Fix this by Bashir
-        shippingPrice: order.shippingPrice.toString(), // TODO: Fix this
-        taxPrice: order.taxPrice.toString(),
-        totalPrice: order.totalPrice.toString(),
-      }}
+    order={{
+      ...order,
+      shippingAddress: order.shippingAddress as ShippingAddress,
+    }}
+    paypalClientId={process.env.PAYPAL_CLIENT_ID || 'sb'}
     />
   );
 };
