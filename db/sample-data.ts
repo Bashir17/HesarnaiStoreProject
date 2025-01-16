@@ -4,8 +4,8 @@ const sampleData = {
   users: [
     {
       name: 'Bashir',
-      email: 'adminbashir@example.com',
-      password: hashSync('123456', 10),
+      email: 'admin@example.com',
+      password: '123456', 
       role: 'admin',
     },
     {
