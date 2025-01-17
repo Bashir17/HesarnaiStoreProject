@@ -97,6 +97,7 @@ const ProductForm = ({
             name="name"
             render={({
               field,
+
             }: {
               field: ControllerRenderProps<
                 z.infer<typeof insertProductSchema>,
