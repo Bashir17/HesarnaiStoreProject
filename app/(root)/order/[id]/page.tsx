@@ -5,6 +5,7 @@ import { ShippingAddress } from '@/types';
 import OrderDetailsTable from './order-details-table';
 import { auth } from '@/auth';
 
+
 export const metadata :Metadata= {
   title: 'Order Details',
 };
@@ -25,6 +26,7 @@ const OrderDetailsPage = async (props: {
     ...item,
     price: item.price.toString(),
   })); */
+ 
   const session = await auth();
   return (
     <OrderDetailsTable
