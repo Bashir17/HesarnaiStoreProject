@@ -208,7 +208,33 @@ const ProductForm = ({
           {/* Images */}
         </div>
         <div className="upload-field">{/* Is Featured */}</div>
-        <div>{/* Description */}</div>
+        <div>
+        {/* Description */}
+        <FormField
+        control={form.control}
+        name='description'
+        render={({
+          field,
+        }: {
+          field: ControllerRenderProps<
+            z.infer<typeof insertProductSchema>,
+            'description'
+          >;
+        }) => (
+          <FormItem className='w-full'>
+            <FormLabel>Description</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder='Enter product description'
+                className='resize-none'
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+        </div>
         <div>{/* Submit */}</div>
       </form>
     </Form>
