@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { productDefaultValues } from "@/lib/constants";
 import { insertProductSchema, updateProductSchema } from "@/lib/validator";
-import { ControllerRenderProps, SubmitHandler } from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler } from "react-hook-form";  
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "slugify";
