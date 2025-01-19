@@ -2,7 +2,7 @@
 
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { auth, signIn, signOut } from '@/auth';
-import { shippingAddressSchema, signInFormSchema, signUpFormSchema ,paymentMethodSchema} from '../validator';
+import { shippingAddressSchema, signInFormSchema, signUpFormSchema ,paymentMethodSchema, updateUserSchema} from '../validator';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/db/prisma';
 import { formatError } from '../utils';
@@ -211,6 +211,28 @@ export async function deleteUser(id: string) {
     return {
       success: true,
       message: 'User deleted successfully',
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Update user
+export async function updateUser(user: z.infer<typeof updateUserSchema>) {
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
+
+    revalidatePath('/admin/users');
+
+    return {
+      success: true,
+      message: 'User updated successfully',
     };
   } catch (error) {
     return { success: false, message: formatError(error) };
