@@ -130,6 +130,7 @@ export const updateProfileSchema = z.object({
 // Schema to update users
 export const updateUserSchema = updateProfileSchema.extend({
   id: z.string().min(1, 'ID is required'),
+  name: z.string().min(3, 'Name must be at least 3 characters'),
   role: z.string().min(1, 'Role is required'),
 });
 
@@ -145,6 +146,4 @@ export const insertReviewSchema = z.object({
     .min(1, 'Rating must be at least 1')
     .max(5, 'Rating must be at most 5'),
 });
-
-
 
