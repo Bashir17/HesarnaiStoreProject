@@ -110,7 +110,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                         )}
                       </Button>
                     </TableCell>
-                    <TableCell className='text-right'>¥{item.price}</TableCell> // added yen symbol
+                    <TableCell className='text-right'>¥{item.price}</TableCell> {/* Change to JPY */} 
                   </TableRow>
                 ))}
               </TableBody>

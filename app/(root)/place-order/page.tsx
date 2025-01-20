@@ -1,11 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import React from 'react';
 import { auth } from '@/auth';
+import { getMyCart } from '@/lib/actions/cart.actions';
+import { getUserById } from '@/lib/actions/user.actions';
+import { ShippingAddress } from '@/types';
+import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import CheckoutSteps from '@/components/shared/checkout-steps';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -14,24 +16,20 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getMyCart } from '@/lib/actions/cart.actions';
-import { getUserById } from '@/lib/actions/user.actions';
+import Image from 'next/image';
 import { formatCurrency } from '@/lib/utils';
-import { ShippingAddress } from '@/types';
 import PlaceOrderForm from './place-order-form';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Place Order',
 };
 
-const placeOrderPage = async () => {
+const PlaceOrderPage = async () => {
   const cart = await getMyCart();
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) {
-    throw new Error('User ID not found');
-  }
+  if (!userId) throw new Error('User not found');
 
   const user = await getUserById(userId);
 
@@ -45,15 +43,14 @@ const placeOrderPage = async () => {
     <>
       <CheckoutSteps current={3} />
       <h1 className='py-4 text-2xl'>Place Order</h1>
-
       <div className='grid md:grid-cols-3 md:gap-5'>
-        <div className='overflow-x-auto md:col-span-2 space-y-4'>
+        <div className='md:col-span-2 overflow-x-auto space-y-4'>
           <Card>
             <CardContent className='p-4 gap-4'>
               <h2 className='text-xl pb-4'>Shipping Address</h2>
               <p>{userAddress.fullName}</p>
               <p>
-                {userAddress.streetAddress}, {userAddress.city},{' '}
+                {userAddress.streetAddress}, {userAddress.city}{' '}
                 {userAddress.postalCode}, {userAddress.country}{' '}
               </p>
               <div className='mt-3'>
@@ -92,7 +89,7 @@ const placeOrderPage = async () => {
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link
-                          href={`/product/${item.slug}`}
+                          href={`/product/{item.slug}`}
                           className='flex items-center'
                         >
                           <Image
@@ -100,7 +97,7 @@ const placeOrderPage = async () => {
                             alt={item.name}
                             width={50}
                             height={50}
-                          ></Image>
+                          />
                           <span className='px-2'>{item.name}</span>
                         </Link>
                       </TableCell>
@@ -114,9 +111,6 @@ const placeOrderPage = async () => {
                   ))}
                 </TableBody>
               </Table>
-              <Link href='/cart'>
-                <Button variant='outline'>Edit</Button>
-              </Link>
             </CardContent>
           </Card>
         </div>
@@ -139,9 +133,7 @@ const placeOrderPage = async () => {
                 <div>Total</div>
                 <div>{formatCurrency(cart.totalPrice)}</div>
               </div>
-              {/* Form Here */}
-              
-      
+              <PlaceOrderForm />
             </CardContent>
           </Card>
         </div>
@@ -150,4 +142,4 @@ const placeOrderPage = async () => {
   );
 };
 
-export default placeOrderPage;
+export default PlaceOrderPage;
