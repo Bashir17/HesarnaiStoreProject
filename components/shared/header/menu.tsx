@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import UserButton from "./user-button";
+import Search from "./search";
 
 import ModeToggle from "./mode-toggle";
 const Menu = () => {
@@ -41,6 +42,12 @@ const Menu = () => {
               </Button>
               <UserButton />
               <SheetDescription></SheetDescription>
+            </SheetContent>
+            <SheetContent className="flex flex-col items-start">
+              <div className="mt-10">
+                <Search />
+              </div>
+              // ...
             </SheetContent>
           </Sheet>
         </nav>
