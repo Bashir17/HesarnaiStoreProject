@@ -1,11 +1,12 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-import qs from "query-string";
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import qs from 'query-string';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
+// Convert prisma object into a regular JS object
 export function convertToPlainObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
@@ -16,15 +17,15 @@ export function formatNumberWithDecimal(num: number): string {
   return decimal ? `${int}.${decimal.padEnd(2, '0')}` : `${int}.00`;
 }
 
-// Format Errors
+// Format errors
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function formatError(error: any): string {
+// eslint-disable-next-line @typescript-eslint
+export function formatError(error: any) {
   if (error.name === 'ZodError') {
     // Handle Zod error
-    const fieldErrors = Object.keys(error.errors).map((field) => {
-      const message = error.errors[field].message;
-      return typeof message === 'string' ? message : JSON.stringify(message);
-    });
+    const fieldErrors = Object.keys(error.errors).map(
+      (field) => error.errors[field].message
+    );
 
     return fieldErrors.join('. ');
   } else if (
@@ -41,6 +42,7 @@ export function formatError(error: any): string {
       : JSON.stringify(error.message);
   }
 }
+
 // Round number to 2 decimal places
 export function round2(value: number | string) {
   if (typeof value === 'number') {
@@ -51,11 +53,11 @@ export function round2(value: number | string) {
     throw new Error('Value is not a number or string');
   }
 }
-// changed from US format to JP format
-const CURRENCY_FORMATTER = new Intl.NumberFormat('ja-JP', {
-  currency: 'JPY',
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
+  currency: 'USD',
   style: 'currency',
-  minimumFractionDigits: 3,
+  minimumFractionDigits: 2,
 });
 
 // Format currency using the formatter above
@@ -69,12 +71,19 @@ export function formatCurrency(amount: number | string | null) {
   }
 }
 
-// Shorten ID
+// Format Number
+const NUMBER_FORMATTER = new Intl.NumberFormat('en-US');
+
+export function formatNumber(number: number) {
+  return NUMBER_FORMATTER.format(number);
+}
+
+// Shorten UUID
 export function formatId(id: string) {
   return `..${id.substring(id.length - 6)}`;
 }
 
-// Format date
+// Format date and times
 export const formatDateTime = (dateString: Date) => {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     month: 'short', // abbreviated month name (e.g., 'Oct')
@@ -114,7 +123,7 @@ export const formatDateTime = (dateString: Date) => {
   };
 };
 
-// Form Pagination Links
+// Form the pagination links
 export function formUrlQuery({
   params,
   key,
@@ -133,12 +142,8 @@ export function formUrlQuery({
       url: window.location.pathname,
       query,
     },
-    { skipNull: true }
+    {
+      skipNull: true,
+    }
   );
-}
-
-//  Format Numbers
-const NUMBER_FORMATTER = new Intl.NumberFormat('en-US');
-export function formatNumber(number: number) {
-  return NUMBER_FORMATTER.format(number);
 }

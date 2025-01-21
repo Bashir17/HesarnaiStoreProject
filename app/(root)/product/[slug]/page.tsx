@@ -19,7 +19,7 @@ const ProductDetailsPage = async (props: {
   if (!product) notFound();
 
   const session = await auth();
-  const userId = session?.user?.id;
+ // const userId = session?.user?.id;
 
   const cart = await getMyCart();
 
@@ -38,6 +38,7 @@ const ProductDetailsPage = async (props: {
                 {product.brand} {product.category}
               </p>
               <h1 className='h3-bold'>{product.name}</h1>
+             
               <p>{product.numReviews} reviews</p>
               <div className='flex flex-col sm:flex-row sm:items-center gap-3'>
                 <ProductPrice
@@ -91,7 +92,7 @@ const ProductDetailsPage = async (props: {
       </section>
       <section className='mt-10'>
         <h2 className='h2-bold mb-5'>Customer Reviews</h2>
-      
+       
       </section>
     </>
   );
