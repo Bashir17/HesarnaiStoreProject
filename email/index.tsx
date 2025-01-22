@@ -12,3 +12,4 @@ export const sendPurchaseReceipt = async ({ order }: { order: Order }) => {
     react: <>EMAIL COMPONENT</>,
   });
 };
+
