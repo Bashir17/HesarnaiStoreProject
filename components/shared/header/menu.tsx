@@ -47,7 +47,7 @@ const Menu = () => {
               <div className="mt-10">
                 <Search />
               </div>
-              // ...
+            {/* ... */}
             </SheetContent>
           </Sheet>
         </nav>
